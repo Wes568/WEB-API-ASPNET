@@ -4,12 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using WebApp.Models;
 
 namespace WebApp.Controllers
 {
+    [EnableCors("*","*","*")]
     public class AlunoController : ApiController
-    {
+    { 
+
         // GET: api/Aluno
         public IEnumerable<Aluno> Get()
         {
