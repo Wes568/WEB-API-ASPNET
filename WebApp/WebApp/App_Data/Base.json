@@ -1,26 +1,5 @@
 [
   {
-    "id": 2,
-    "nome": "Julia",
-    "sobrenome": "Menezes",
-    "telefone": "991812744",
-    "ra": 1
-  },
-  {
-    "id": 3,
-    "nome": "Fernando",
-    "sobrenome": "Silva",
-    "telefone": "551812744",
-    "ra": 1
-  },
-  {
-    "id": 4,
-    "nome": "Guga",
-    "sobrenome": "Polo",
-    "telefone": "123",
-    "ra": 12
-  },
-  {
     "id": 5,
     "nome": "Fernando",
     "sobrenome": "Oliveira",
@@ -35,13 +14,6 @@
     "ra": 1
   },
   {
-    "id": 7,
-    "nome": "Santos",
-    "sobrenome": "Loli",
-    "telefone": "123",
-    "ra": 4
-  },
-  {
     "id": 8,
     "nome": "Julia",
     "sobrenome": "Menezes",
@@ -50,9 +22,16 @@
   },
   {
     "id": 9,
-    "nome": "Julia",
-    "sobrenome": "Menezes",
-    "telefone": "111111",
-    "ra": 1
+    "nome": "Felipe",
+    "sobrenome": "Sandro",
+    "telefone": "1233",
+    "ra": 43
+  },
+  {
+    "id": 10,
+    "nome": "Felipe",
+    "sobrenome": "Oliveira",
+    "telefone": "12444",
+    "ra": 24
   }
 ]

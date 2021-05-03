@@ -1,151 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
 	<title></title>
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
 <body>
-	<h2 id="titulo">Cadastrar Aluno</h2>
-	<div><label>Nome:</label><input id="nome" type="text"></input></div>
-	<div><label>Sobrenome:</label><input id="sobrenome" type="text"></input></div>
-	<div><label>Telefone:</label><input id="telefone" type="text"></input></div>
-	<div><label>RA:</label><input id="ra" type="text"></input></div>
-	<div>
-		<button id="btnSalvar" onclick="Cadastrar()">Cadastrar</button>
-		<button id="btnCancelar" onclick="Cancelar()">Limpar</button>
+	<div class="container">
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="titulo">Cadastrar</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group"><label>Nome:</label><input class="form-control" id="nome" type="text"></input></div>
+					<div class="form-group"><label>Sobrenome:</label><input class="form-control" id="sobrenome" type="text"></input></div>
+					<div class="form-group"><label>Telefone:</label><input class="form-control" id="telefone" type="text"></input></div>
+					<div class="form-group"><label>RA:</label><input class="form-control" id="ra" type="text"></input></div>
+				</div>
+				<div class="modal-footer">
+					<div>
+						<button id="btnSalvar" class="btn btn-success" data-bs-dismiss="modal" onclick="Cadastrar()">Cadastrar</button>
+						<button id="btnCancelar" class="btn btn-secondary" data-bs-dismiss="modal" onclick="Cancelar()">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<table border="1">
-		<thead>
-			<tr>
-				<td>Nome:</td>
-				<td>Sobrenome:</td>
-				<td>Telefone:</td>
-				<td>RA:</td>
-				<td>Opções</td>
-			</tr>
-		</thead>
-	</table>
-	<script type="text/javascript">
-		var tbody = document.querySelector('table');
-		var aluno = {};
 
-		function Cadastrar(){
-			aluno.nome = document.querySelector('#nome').value;
-			aluno.sobrenome = document.querySelector('#sobrenome').value;
-			aluno.telefone = document.querySelector('#telefone').value;
-			aluno.ra = document.querySelector('#ra').value;
+		<h2 id="titulo">Cadastrar Aluno</h2>
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary pull-right" data-bs-target="#exampleModal" data-bs-toggle="modal" onclick="NovoAluno()">
+			Cadastrar
+		</button>
+		<hr>
 
-			console.log(aluno);
-
-			if(aluno.id === undefined || aluno.id === 0){
-				salvarEstudantes('POST', 0, aluno);
-			}
-			else
-			{
-				salvarEstudantes('PUT', aluno.id, aluno);
-			}
-
-			carregaEstudantes();
-		}
-
-		function Cancelar(){
-			var btnSalvar = document.querySelector('#btnSalvar');
-			var btnCancelar = document.querySelector('#btnCancelar');
-			var titulo = document.querySelector('#titulo');
-
-			document.querySelector('#nome').value = '';
-			document.querySelector('#sobrenome').value = '' ;
-			document.querySelector('#telefone').value = '' ;
-			document.querySelector('#ra').value = '' ;
-
-			aluno = {};
-
-			btnSalvar.textContent = 'Cadastrar';
-			btnCancelar.textContent = 'Limpar';
-
-			titulo.textContent = 'Cadastrar Aluno';
-		}
-
-		function carregaEstudantes(){
-			tbody.innerHTML='';
-			var xhr = new XMLHttpRequest();
-
-			xhr.open('GET', `http://localhost:8225/api/Aluno/`, true);
-	
-			xhr.onload = function () {
-				var estudantes = JSON.parse(this.responseText);
-				for(var indice in estudantes){
-					adicionaLinha(estudantes[indice]);
-				}
-			}
-			
-			xhr.send();
-			
-		}
-
-		function salvarEstudantes(metodo, id, corpo){
-
-			var xhr = new XMLHttpRequest();
-
-			if(id === undefined || id === 0)
-				id = '';
-
-			xhr.open(metodo, `http://localhost:8225/api/Aluno/${id}`, false);
-			xhr.setRequestHeader('content-type', 'application/json');
-			xhr.send(JSON.stringify(corpo));
-			
-		}
-
-		carregaEstudantes();
-
-		function editarEstudante(estudante){
-
-			var btnSalvar = document.querySelector('#btnSalvar');
-			var btnCancelar = document.querySelector('#btnCancelar');
-			var titulo = document.querySelector('#titulo');
-			document.querySelector('#nome').value = estudante.nome;
-			document.querySelector('#sobrenome').value = estudante.sobrenome ;
-			document.querySelector('#telefone').value = estudante.telefone ;
-			document.querySelector('#ra').value = estudante.ra ;
-
-			btnSalvar.textContent = 'Salvar';
-			btnCancelar.textContent = 'Cancelar';
-
-			titulo.textContent = `Editar Aluno ${estudante.nome}`;
-
-			aluno = estudante;
-
-			console.log(aluno);
-		}
-
-		function excluirEstudante(id){
-			var xhr = new XMLHttpRequest();
-
-			xhr.open('DELETE', `http://localhost:8225/api/Aluno/${id}`, false);
-
-			xhr.send();
-
-		}
-
-		function excluir(id){
-			excluirEstudante(id);
-			carregaEstudantes();
-		}
-
-		function adicionaLinha(estudante){
-			
-			var trow = `<tr>
-							<td>${estudante.nome}</td>
-							<td>${estudante.sobrenome}</td>
-							<td>${estudante.telefone}</td>
-							<td>${estudante.ra}</td>
-							<td><button onclick='editarEstudante(${JSON.stringify(estudante)})'>Editar</button></td>
-							<td><button onclick='excluir(${estudante.id})'>Apagar</button></td>
-						</tr>
-						`
-
-			tbody.innerHTML += trow;
-		}
-
-	</script>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<td>Nome:</td>
+					<td>Sobrenome:</td>
+					<td>Telefone:</td>
+					<td>RA:</td>
+					<td>Opções</td>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<script type="text/javascript" src="scripts/script.js"></script>
+	<!-- jQuery (obrigatório para plugins JavaScript do Bootstrap) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Inclui todos os plugins compilados (abaixo), ou inclua arquivos separadados se necessário -->
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootbox.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
 </body>
 </html>
